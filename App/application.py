@@ -19,7 +19,7 @@ def recognize_speech():
     try:
         # Utilisez l'API Google Speech Recognition pour reconnaître la parole
         text = recognizer.recognize_google(audio_data, language="fr-FR")
-        result_label.config(text="Vous avez dit: " + text)
+        result_label.config(text="Vous avez dit: \n" + text)
     except sr.UnknownValueError:
         result_label.config(text="Google Speech Recognition n'a pas pu comprendre l'audio.")
     except sr.RequestError as e:
@@ -28,7 +28,7 @@ def recognize_speech():
 def choose_voice():
     #label.config(text="Commande vocale sélectionnée")
     result_label.config(text="Parlez maintenant...")  # Afficher "Parlez maintenant"
-    #root.update()  # Mettre à jour l'interface graphique
+    app.update()  # Mettre à jour l'interface graphique
 
     recognize_speech()
 
@@ -102,14 +102,18 @@ def show_accueil():
         bannerButton7.place_forget()
     if bannerButton8.winfo_exists():
         bannerButton8.place_forget()
+    if bannerButton9.winfo_exists():
+        bannerButton9.place_forget()
 
     #suppression de texte
     if vocal_label.winfo_exists():
-        auto_label.place_forget()
+        vocal_label.place_forget()
     if manu_label.winfo_exists():
         manu_label.place_forget()
     if auto_label.winfo_exists():
         auto_label.place_forget()
+    if result_label.winfo_exists():
+        result_label.place_forget()
 
 def show_mapping():
     accueilText.config(text="MAPPING")
@@ -133,14 +137,18 @@ def show_mapping():
         bannerButton7.place_forget()
     if bannerButton8.winfo_exists():
         bannerButton8.place_forget()
+    if bannerButton9.winfo_exists():
+        bannerButton9.place_forget()
     
     #suppression de texte
     if vocal_label.winfo_exists():
-        auto_label.place_forget()
+        vocal_label.place_forget()
     if manu_label.winfo_exists():
         manu_label.place_forget()
     if auto_label.winfo_exists():
         auto_label.place_forget()
+    if result_label.winfo_exists():
+        result_label.place_forget()
         
 
 def show_mode():
@@ -163,6 +171,8 @@ def show_mode():
         bannerButton7.place_forget()
     if bannerButton8.winfo_exists():
         bannerButton8.place_forget()
+    if bannerButton9.winfo_exists():
+        bannerButton9.place_forget()
 
     #suppression de texte
     if vocal_label.winfo_exists():
@@ -171,6 +181,8 @@ def show_mode():
         manu_label.place_forget()
     if auto_label.winfo_exists():
         auto_label.place_forget()
+    if result_label.winfo_exists():
+        result_label.place_forget()
     
 
 
@@ -197,14 +209,18 @@ def show_tracking():
         bannerButton7.place_forget()
     if bannerButton8.winfo_exists():
         bannerButton8.place_forget()
+    if bannerButton9.winfo_exists():
+        bannerButton9.place_forget()
     
     #suppression de texte
     if vocal_label.winfo_exists():
-        auto_label.place_forget()
+        vocal_label.place_forget()
     if manu_label.winfo_exists():
         manu_label.place_forget()
     if auto_label.winfo_exists():
         auto_label.place_forget()
+    if result_label.winfo_exists():
+        result_label.place_forget()
 
 def show_parametres():
     accueilText.config(text="PARAMETRES")
@@ -228,14 +244,18 @@ def show_parametres():
         bannerButton7.place_forget()
     if bannerButton8.winfo_exists():
         bannerButton8.place_forget()
+    if bannerButton9.winfo_exists():
+        bannerButton9.place_forget()
 
     #suppression de texte
     if vocal_label.winfo_exists():
-        auto_label.place_forget()
+        vocal_label.place_forget()
     if manu_label.winfo_exists():
         manu_label.place_forget()
     if auto_label.winfo_exists():
         auto_label.place_forget()
+    if result_label.winfo_exists():
+        result_label.place_forget()
 
 #Définir les fonctions pour MODE
 def show_auto():
@@ -260,12 +280,16 @@ def show_auto():
         bannerButton7.place_forget()
     if bannerButton8.winfo_exists():
         bannerButton8.place_forget()
+    if bannerButton9.winfo_exists():
+        bannerButton9.place_forget()
     
     #suppression de texte
     if vocal_label.winfo_exists():
         vocal_label.place_forget()
     if manu_label.winfo_exists():
         manu_label.place_forget()
+    if result_label.winfo_exists():
+        result_label.place_forget()
     
 
 def show_manu():
@@ -290,17 +314,24 @@ def show_manu():
         bannerButton7.place_forget()
     if bannerButton8.winfo_exists():
         bannerButton8.place_forget()
+    if bannerButton9.winfo_exists():
+        bannerButton9.place_forget()
 
     #suppression de texte
     if auto_label.winfo_exists():
         auto_label.place_forget()
     if vocal_label.winfo_exists():
         vocal_label.place_forget()
+    if result_label.winfo_exists():
+        result_label.place_forget()
 
 def show_vocal():
     bannerButton4.place(x=25, y=75)
+    bannerButton9.place(x=125, y=350)
+
     #ajout de texte
-    vocal_label.place(x=100, y=350)
+    vocal_label.place(x=50, y=150)
+    result_label.place(x=50, y=250)
 
     #suppression de bouton
     if bannerButton.winfo_exists():
@@ -319,12 +350,16 @@ def show_vocal():
         bannerButton7.place_forget()
     if bannerButton8.winfo_exists():
         bannerButton8.place_forget()
+    
+    
 
     #suppression de texte
     if auto_label.winfo_exists():
         auto_label.place_forget()
     if manu_label.winfo_exists():
         manu_label.place_forget()
+    
+    
 
 #Définir les fonctions pour PARAMETRE
 def show_langue():
@@ -345,6 +380,8 @@ def show_langue():
         bannerButton4.place_forget()
     if bannerButton5.winfo_exists():
         bannerButton5.place_forget()
+    if bannerButton9.winfo_exists():
+        bannerButton9.place_forget()
     
 
     #suppression de texte
@@ -352,6 +389,10 @@ def show_langue():
         auto_label.place_forget()
     if manu_label.winfo_exists():
         manu_label.place_forget()
+    if result_label.winfo_exists():
+        result_label.place_forget()
+    if vocal_label.winfo_exists():
+        vocal_label.place_forget()
 
 # Barre de navigation Top
 topFrame = tk.Frame(app, bg=couleur["Bleu"])
@@ -395,6 +436,9 @@ bannerButton7 = tk.Button(app, text="FRANCAIS", font="ExtraCondensed 32",
 bannerButton8 = tk.Button(app, text="RETOUR", font="ExtraCondensed 20",
                             fg="black", bd=0, bg=couleur["Gris"], command=show_parametres)
 
+bannerButton9 = tk.Button(app, text="PARLEZ", font="ExtraCondensed 20",
+                            fg="black", bd=0, bg=couleur["Vert"], command=choose_voice)
+
 can.pack()
 
 #Bouton 
@@ -404,7 +448,7 @@ auto_label = tk.Label(app, text="Veuillez patientez...")
 
 manu_label = tk.Label(app, text="Utiliser les boutons de direction \npour controler le robot")
 
-vocal_label = tk.Label(app, text="Parlez maintenant...")
+vocal_label = tk.Label(app, text="Commande vocal séléctionnée...", font="ExtraCondensed 15")
 
 # Icone
 robIcon = tk.Button(topFrame, image=ouvIcon, bg=couleur["Bleu"],
@@ -437,8 +481,8 @@ fermeBouton = tk.Button(framLateral, image=closeIcon, bg=couleur["Bleu"],
 fermeBouton.place(x=250, y=10)
 
 # Création et ajout d'un widget Label pour afficher le résultat de la reconnaissance vocale
-result_label = tk.Label(app, text="")
-result_label.pack()
+result_label = tk.Label(app, text="",font="ExtraCondensed 20" )
+
 
 
 app.resizable(width=False, height=False)
