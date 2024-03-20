@@ -360,6 +360,7 @@ def show_vocal():
         manu_label.place_forget()
     
     
+    
 
 #Définir les fonctions pour PARAMETRE
 def show_langue():
