@@ -1,6 +1,29 @@
 import tkinter as tk
 from tkinter import PhotoImage
 import speech_recognition as sr
+import socket
+import bluetooth
+
+#Partie bluetooth
+
+def connect_to_bluetooth_device(device_address):
+    port = 3
+    s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+    try:
+        s.connect((device_address, port))
+        print("Connecté avec succès au serveur Bluetooth.")
+        return s
+    except bluetooth.btcommon.BluetoothError as e:
+        print("Erreur de connexion Bluetooth :", e)
+        return None
+
+def send_command_over_bluetooth(socket, command):
+    try:
+        socket.send(bytes(command, 'UTF-8'))
+    except Exception as e:
+        print("Erreur lors de l'envoi de la commande Bluetooth :", e)
+
+
 
 # Initialisez le Recognizer
 recognizer = sr.Recognizer()
