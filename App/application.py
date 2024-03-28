@@ -3,25 +3,103 @@ from tkinter import PhotoImage
 import speech_recognition as sr
 import socket
 import bluetooth
+from tkinter import messagebox
+import cv2
+from PIL import Image, ImageTk
+
+#Partie video stream
+def show_video_stream():
+    cap = cv2.VideoCapture(0)  # Utilisez l'index 0 pour la première webcam disponible
+    _, frame = cap.read()
+    if _:
+        frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+        img = Image.fromarray(frame)
+        img = ImageTk.PhotoImage(image=img)
+        panel.img = img  # Gardez une référence pour éviter la suppression par le garbage collector
+        panel.config(image=img)
+        panel.after(10, show_video_stream)  # Mettre à jour l'image toutes les 10 ms
+    else:
+        print("Erreur lors de la capture de l'image.")
 
 #Partie bluetooth
 
-def connect_to_bluetooth_device(device_address):
-    port = 3
-    s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
-    try:
-        s.connect((device_address, port))
-        print("Connecté avec succès au serveur Bluetooth.")
-        return s
-    except bluetooth.btcommon.BluetoothError as e:
-        print("Erreur de connexion Bluetooth :", e)
-        return None
+def show_bluetooth():
+    bannerButton8.place(x=25, y=75)
+    search_button.place(x=75,y=150)
+    appareil_label.place(x=100, y=200)
+    devices_listbox.place(x=50, y=250)
+    connect_button.place(x=150, y=450)
+    
 
-def send_command_over_bluetooth(socket, command):
-    try:
-        socket.send(bytes(command, 'UTF-8'))
-    except Exception as e:
-        print("Erreur lors de l'envoi de la commande Bluetooth :", e)
+    #suppression de bouton
+    if bannerButton.winfo_exists():
+        bannerButton.place_forget()
+    if bannerButton1.winfo_exists():
+        bannerButton1.place_forget()
+    if bannerButton2.winfo_exists():
+        bannerButton2.place_forget()
+    if bannerButton3.winfo_exists():
+        bannerButton3.place_forget()
+    if bannerButton4.winfo_exists():
+        bannerButton4.place_forget()
+    if bannerButton5.winfo_exists():
+        bannerButton5.place_forget()
+    if bannerButton6.winfo_exists():
+        bannerButton6.place_forget()
+    if bannerButton7.winfo_exists():
+        bannerButton7.place_forget()
+    if bannerButton9.winfo_exists():
+        bannerButton9.place_forget()
+    if bannerButton10.winfo_exists():
+        bannerButton10.place_forget()
+    
+
+    #suppression de texte
+    if auto_label.winfo_exists():
+        auto_label.place_forget()
+    if manu_label.winfo_exists():
+        manu_label.place_forget()
+    if result_label.winfo_exists():
+        result_label.place_forget()
+    if vocal_label.winfo_exists():
+        vocal_label.place_forget()
+    
+
+def search_devices():
+    global nearby_devices
+    nearby_devices = bluetooth.discover_devices()
+    update_devices_list()
+
+def connect_to_selected_device():
+    selected_index = devices_listbox.curselection()
+    if selected_index:
+        selected_device_index = int(selected_index[0])
+        selected_device_address = nearby_devices[selected_device_index]
+        try:
+            port = 3
+            s = socket.socket(socket.AF_BLUETOOTH, socket.SOCK_STREAM, socket.BTPROTO_RFCOMM)
+            s.connect((selected_device_address, port))
+            print("Connecté avec succès au serveur Bluetooth.")
+            while True:
+                text = input("Entrez votre message (ou 'quit' pour quitter) : ")
+                s.send(bytes(text, 'UTF-8'))
+                if text.lower() == "quit":
+                    break
+        except bluetooth.btcommon.BluetoothError as e:
+            print("Erreur de connexion Bluetooth :", e)
+            messagebox.showerror("Erreur", "Impossible de se connecter à l'appareil sélectionné.")
+        finally:
+            s.close()
+            print("Connexion au serveur Bluetooth fermée.")
+    else:
+        messagebox.showerror("Erreur", "Aucun appareil sélectionné.")
+def update_devices_list():
+    devices_listbox.delete(0, tk.END)
+    for i, device_address in enumerate(nearby_devices):
+        devices_listbox.insert(tk.END, f"{i + 1}: {bluetooth.lookup_name(device_address)} [{device_address}]")
+
+
+
 
 
 
@@ -79,7 +157,7 @@ boutonEtat = False
 # Chargement image
 ouvIcon = PhotoImage(file='menu.png')
 closeIcon = PhotoImage(file='close.png')
-imgFond = PhotoImage(file='rover.png')
+imgFond = PhotoImage(file='fond.png')
 
 
 # Définir les fonctions switch
@@ -127,6 +205,14 @@ def show_accueil():
         bannerButton8.place_forget()
     if bannerButton9.winfo_exists():
         bannerButton9.place_forget()
+    if bannerButton10.winfo_exists():
+        bannerButton10.place_forget()
+    if devices_listbox.winfo_exists():
+        devices_listbox.place_forget()
+    if search_button.winfo_exists():
+        search_button.place_forget()
+    if connect_button.winfo_exists():
+        connect_button.place_forget()
 
     #suppression de texte
     if vocal_label.winfo_exists():
@@ -137,9 +223,12 @@ def show_accueil():
         auto_label.place_forget()
     if result_label.winfo_exists():
         result_label.place_forget()
+    if appareil_label.winfo_exists():
+        appareil_label.place_forget()
 
 def show_mapping():
     accueilText.config(text="MAPPING")
+
     #ajout de bouton
     bannerButton.place(x=100,y=150)
 
@@ -162,7 +251,15 @@ def show_mapping():
         bannerButton8.place_forget()
     if bannerButton9.winfo_exists():
         bannerButton9.place_forget()
-    
+    if bannerButton10.winfo_exists():
+        bannerButton10.place_forget()
+    if devices_listbox.winfo_exists():
+        devices_listbox.place_forget()
+    if search_button.winfo_exists():
+        search_button.place_forget()
+    if connect_button.winfo_exists():
+        connect_button.place_forget()
+
     #suppression de texte
     if vocal_label.winfo_exists():
         vocal_label.place_forget()
@@ -172,14 +269,16 @@ def show_mapping():
         auto_label.place_forget()
     if result_label.winfo_exists():
         result_label.place_forget()
+    if appareil_label.winfo_exists():
+        appareil_label.place_forget()
         
 
 def show_mode():
     accueilText.config(text="MODE")
     #ajout de bouton
-    bannerButton1.place(x=100,y=150)
-    bannerButton2.place(x=100,y=250)
-    bannerButton3.place(x=100,y=350)
+    bannerButton1.place(x=110,y=150)
+    bannerButton2.place(x=110,y=250)
+    bannerButton3.place(x=110,y=350)
 
     #suppression de bouton
     if bannerButton.winfo_exists():
@@ -196,6 +295,14 @@ def show_mode():
         bannerButton8.place_forget()
     if bannerButton9.winfo_exists():
         bannerButton9.place_forget()
+    if bannerButton10.winfo_exists():
+        bannerButton10.place_forget()
+    if devices_listbox.winfo_exists():
+        devices_listbox.place_forget()
+    if search_button.winfo_exists():
+        search_button.place_forget()
+    if connect_button.winfo_exists():
+        connect_button.place_forget()
 
     #suppression de texte
     if vocal_label.winfo_exists():
@@ -206,12 +313,18 @@ def show_mode():
         auto_label.place_forget()
     if result_label.winfo_exists():
         result_label.place_forget()
+    if appareil_label.winfo_exists():
+        appareil_label.place_forget()
     
 
 
 def show_tracking():
     accueilText.config(text="TRACKING")
     #ajout de bouton
+    global panel
+    panel = tk.Label(app)
+    panel.place(x=50, y=100)
+    show_video_stream()
 
     #suppression de bouton
     if bannerButton.winfo_exists():
@@ -234,7 +347,15 @@ def show_tracking():
         bannerButton8.place_forget()
     if bannerButton9.winfo_exists():
         bannerButton9.place_forget()
-    
+    if bannerButton10.winfo_exists():
+        bannerButton10.place_forget()
+    if devices_listbox.winfo_exists():
+        devices_listbox.place_forget()
+    if search_button.winfo_exists():
+        search_button.place_forget()
+    if connect_button.winfo_exists():
+        connect_button.place_forget()
+
     #suppression de texte
     if vocal_label.winfo_exists():
         vocal_label.place_forget()
@@ -244,11 +365,14 @@ def show_tracking():
         auto_label.place_forget()
     if result_label.winfo_exists():
         result_label.place_forget()
+    if appareil_label.winfo_exists():
+        appareil_label.place_forget()
 
 def show_parametres():
     accueilText.config(text="PARAMETRES")
     #ajout de bouton
-    bannerButton5.place(x=100, y=200)
+    bannerButton5.place(x=50, y=200)
+    bannerButton10.place(x=50, y=300)
 
     #suppression de bouton
     if bannerButton.winfo_exists():
@@ -269,6 +393,12 @@ def show_parametres():
         bannerButton8.place_forget()
     if bannerButton9.winfo_exists():
         bannerButton9.place_forget()
+    if devices_listbox.winfo_exists():
+        devices_listbox.place_forget()
+    if search_button.winfo_exists():
+        search_button.place_forget()
+    if connect_button.winfo_exists():
+        connect_button.place_forget()
 
     #suppression de texte
     if vocal_label.winfo_exists():
@@ -279,6 +409,8 @@ def show_parametres():
         auto_label.place_forget()
     if result_label.winfo_exists():
         result_label.place_forget()
+    if appareil_label.winfo_exists():
+        appareil_label.place_forget()
 
 #Définir les fonctions pour MODE
 def show_auto():
@@ -305,7 +437,15 @@ def show_auto():
         bannerButton8.place_forget()
     if bannerButton9.winfo_exists():
         bannerButton9.place_forget()
-    
+    if bannerButton10.winfo_exists():
+        bannerButton10.place_forget()
+    if devices_listbox.winfo_exists():
+        devices_listbox.place_forget()
+    if search_button.winfo_exists():
+        search_button.place_forget()
+    if connect_button.winfo_exists():
+        connect_button.place_forget()
+
     #suppression de texte
     if vocal_label.winfo_exists():
         vocal_label.place_forget()
@@ -313,6 +453,8 @@ def show_auto():
         manu_label.place_forget()
     if result_label.winfo_exists():
         result_label.place_forget()
+    if appareil_label.winfo_exists():
+        appareil_label.place_forget()
     
 
 def show_manu():
@@ -339,6 +481,14 @@ def show_manu():
         bannerButton8.place_forget()
     if bannerButton9.winfo_exists():
         bannerButton9.place_forget()
+    if bannerButton10.winfo_exists():
+        bannerButton10.place_forget()
+    if devices_listbox.winfo_exists():
+        devices_listbox.place_forget()
+    if search_button.winfo_exists():
+        search_button.place_forget()
+    if connect_button.winfo_exists():
+        connect_button.place_forget()
 
     #suppression de texte
     if auto_label.winfo_exists():
@@ -347,6 +497,8 @@ def show_manu():
         vocal_label.place_forget()
     if result_label.winfo_exists():
         result_label.place_forget()
+    if appareil_label.winfo_exists():
+        appareil_label.place_forget()
 
 def show_vocal():
     bannerButton4.place(x=25, y=75)
@@ -373,7 +525,14 @@ def show_vocal():
         bannerButton7.place_forget()
     if bannerButton8.winfo_exists():
         bannerButton8.place_forget()
-    
+    if bannerButton10.winfo_exists():
+        bannerButton10.place_forget()
+    if devices_listbox.winfo_exists():
+        devices_listbox.place_forget()
+    if search_button.winfo_exists():
+        search_button.place_forget()
+    if connect_button.winfo_exists():
+        connect_button.place_forget()
     
 
     #suppression de texte
@@ -381,6 +540,8 @@ def show_vocal():
         auto_label.place_forget()
     if manu_label.winfo_exists():
         manu_label.place_forget()
+    if appareil_label.winfo_exists():
+        appareil_label.place_forget()
     
     
     
@@ -406,7 +567,14 @@ def show_langue():
         bannerButton5.place_forget()
     if bannerButton9.winfo_exists():
         bannerButton9.place_forget()
-    
+    if bannerButton10.winfo_exists():
+        bannerButton10.place_forget()
+    if devices_listbox.winfo_exists():
+        devices_listbox.place_forget()
+    if search_button.winfo_exists():
+        search_button.place_forget()
+    if connect_button.winfo_exists():
+        connect_button.place_forget()
 
     #suppression de texte
     if auto_label.winfo_exists():
@@ -417,7 +585,9 @@ def show_langue():
         result_label.place_forget()
     if vocal_label.winfo_exists():
         vocal_label.place_forget()
-
+    if appareil_label.winfo_exists():
+        appareil_label.place_forget()
+        
 # Barre de navigation Top
 topFrame = tk.Frame(app, bg=couleur["Bleu"])
 topFrame.pack(side="top", fill=tk.X)
@@ -436,32 +606,41 @@ can.create_image(0, 0, anchor=tk.NW, image=imgFond)
 bannerButton = tk.Button(app, text="STOP", font="ExtraCondensed 32",
                          fg="black", bd=0, bg=couleur["Rouge"], command=None)
 
-bannerButton1 = tk.Button(app, text="AUTO", font="ExtraCondensed 32",
-                          fg="black", bd=0, bg=couleur["Jaune"], command=show_auto)
+bannerButton1 = tk.Button(app, text="AUTO", font="ExtraCondensed 32",width=7,height=1,
+                          fg="black", bd=0, bg=couleur["Cyan"], command=show_auto)
 
-bannerButton2 = tk.Button(app, text="MANU", font="ExtraCondensed 32",
-                            fg="black", bd=0, bg=couleur["Vert"], command=show_manu)
+bannerButton2 = tk.Button(app, text="MANU", font="ExtraCondensed 32",width=7,height=1,
+                            fg="black", bd=0, bg=couleur["Cyan"], command=show_manu)
 
-bannerButton3 = tk.Button(app, text="VOCAL", font="ExtraCondensed 32",
+bannerButton3 = tk.Button(app, text="VOCAL", font="ExtraCondensed 32",width=7,height=1,
                             fg="black", bd=0, bg=couleur["Cyan"], command=show_vocal)
 
 bannerButton4 = tk.Button(app, text="RETOUR", font="ExtraCondensed 20",
                             fg="black", bd=0, bg=couleur["Gris"], command=show_mode)
 
-bannerButton5 = tk.Button(app, text="LANGUES", font="ExtraCondensed 32",
+bannerButton5 = tk.Button(app, text="LANGUES", font="ExtraCondensed 32",width=12,height=1,
                             fg="black", bd=0, bg=couleur["Cyan"], command=show_langue)
 
 bannerButton6 = tk.Button(app, text="ANGLAIS", font="ExtraCondensed 32",
-                            fg="black", bd=0, bg=couleur["Vert"], command=None)
+                            fg="black", bd=0, bg=couleur["Cyan"], command=None)
 
 bannerButton7 = tk.Button(app, text="FRANCAIS", font="ExtraCondensed 32",
-                            fg="black", bd=0, bg=couleur["Vert"], command=None)
+                            fg="black", bd=0, bg=couleur["Cyan"], command=None)
 
 bannerButton8 = tk.Button(app, text="RETOUR", font="ExtraCondensed 20",
                             fg="black", bd=0, bg=couleur["Gris"], command=show_parametres)
 
 bannerButton9 = tk.Button(app, text="PARLEZ", font="ExtraCondensed 20",
                             fg="black", bd=0, bg=couleur["Vert"], command=choose_voice)
+
+bannerButton10 = tk.Button(app, text="BLUETOOTH", font="ExtraCondensed 32",width=12,height=1,
+                            fg="black", bd=0, bg=couleur["Cyan"], command=show_bluetooth)
+
+search_button = tk.Button(app, text="Rechercher des appareils", font="ExtraCondensed 15",
+                          fg="black", bd=0, bg=couleur["Jaune"], command=search_devices)
+
+connect_button = tk.Button(app, text="Se connecter",font="ExtraCondensed 15",
+                           fg="black", bd=0, bg=couleur["Vert"], command=connect_to_selected_device)
 
 can.pack()
 
@@ -473,6 +652,12 @@ auto_label = tk.Label(app, text="Veuillez patientez...")
 manu_label = tk.Label(app, text="Utiliser les boutons de direction \npour controler le robot")
 
 vocal_label = tk.Label(app, text="Commande vocal séléctionnée...", font="ExtraCondensed 15")
+
+appareil_label= tk.Label(app, text="Appareils disponible", font="ExtraCondensed 15")
+
+#Liste
+devices_listbox = tk.Listbox(app, selectmode=tk.SINGLE, width=50)
+nearby_devices = []
 
 # Icone
 robIcon = tk.Button(topFrame, image=ouvIcon, bg=couleur["Bleu"],
