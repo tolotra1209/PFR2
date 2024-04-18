@@ -54,7 +54,13 @@ void loop()
 
     pixy.setServos(panLoop.m_command, tiltLoop.m_command);
   }
-  else if (searchMode)
+  else
+  {
+    // Si aucun objet n'est détecté, recommencer le balayage
+    searchMode = true;
+  }
+
+  if (searchMode)
   {
     // Aucun objet détecté, continuer le balayage
     performSearch();
