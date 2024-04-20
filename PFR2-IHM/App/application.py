@@ -275,7 +275,7 @@ def show_mapping():
         appareil_label.place_forget()
         
 
-def show_mode():
+def show_modes():
     accueilText.config(text="MODES")
     #ajout de bouton
     bannerButton1.place(x=110,y=150)
@@ -618,7 +618,7 @@ bannerButton3 = tk.Button(app, text="VOCAL", font="ExtraCondensed 32",width=7,he
                             fg="black", bd=0, bg=couleur["Cyan"], command=show_vocal)
 
 bannerButton4 = tk.Button(app, text="RETOUR", font="ExtraCondensed 20",
-                            fg="black", bd=0, bg=couleur["Gris"], command=show_mode)
+                            fg="black", bd=0, bg=couleur["Gris"], command=show_modes)
 
 bannerButton5 = tk.Button(app, text="LANGUES", font="ExtraCondensed 32",width=12,height=1,
                             fg="black", bd=0, bg=couleur["Cyan"], command=show_langue)

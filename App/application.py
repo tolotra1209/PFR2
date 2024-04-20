@@ -7,6 +7,12 @@ from tkinter import messagebox
 import cv2
 from PIL import Image, ImageTk
 
+
+#Version anglais
+def anglais():
+    accueilText.config(text="HOME")
+    
+
 #Partie video stream
 def show_video_stream():
     cap = cv2.VideoCapture(0)  # Utilisez l'index 0 pour la première webcam disponible
@@ -63,6 +69,7 @@ def show_bluetooth():
         result_label.place_forget()
     if vocal_label.winfo_exists():
         vocal_label.place_forget()
+
     
 
 def search_devices():
@@ -93,6 +100,7 @@ def connect_to_selected_device():
             print("Connexion au serveur Bluetooth fermée.")
     else:
         messagebox.showerror("Erreur", "Aucun appareil sélectionné.")
+
 def update_devices_list():
     devices_listbox.delete(0, tk.END)
     for i, device_address in enumerate(nearby_devices):
@@ -180,6 +188,27 @@ def switch():
             framLateral.place(x=x, y=0)
             topFrame.update()
             boutonEtat = True
+
+# Définir les fonctions pour les options
+
+
+    
+
+def anglais():
+    bannerButton.config(text="STOP")
+    bannerButton1.config(text="AUTO")
+    bannerButton2.config(text="MANUAL")
+    bannerButton3.config(text="VOICE")
+    bannerButton4.config(text="BACK")
+    bannerButton5.config(text="LANGUAGES")
+    bannerButton6.config(text="ENGLISH")
+    bannerButton7.config(text="FRENCH")
+    bannerButton8.config(text="BACK")
+    bannerButton9.config(text="SPEAK")
+    bannerButton10.config(text="BLUETOOTH")
+    search_button.config(text="Search for devices")
+    connect_button.config(text="Login")
+
 
 # Définir les fonctions pour les options
 def show_accueil():
@@ -273,8 +302,8 @@ def show_mapping():
         appareil_label.place_forget()
         
 
-def show_mode():
-    accueilText.config(text="MODE")
+def show_modes():
+    accueilText.config(text="MODES")
     #ajout de bouton
     bannerButton1.place(x=110,y=150)
     bannerButton2.place(x=110,y=250)
@@ -324,7 +353,7 @@ def show_tracking():
     global panel
     panel = tk.Label(app)
     panel.place(x=50, y=100)
-    show_video_stream()
+    
 
     #suppression de bouton
     if bannerButton.winfo_exists():
@@ -587,20 +616,20 @@ def show_langue():
         vocal_label.place_forget()
     if appareil_label.winfo_exists():
         appareil_label.place_forget()
+
         
 # Barre de navigation Top
 topFrame = tk.Frame(app, bg=couleur["Bleu"])
 topFrame.pack(side="top", fill=tk.X)
 
+# Banner Button & Image de fond
+can = tk.Canvas(app, width=400, height=600)
+can.create_image(0, 0, anchor=tk.NW, image=imgFond)
 
 # Texte de top
 accueilText = tk.Label(topFrame, text="ACCUEIL", font="ExtraCondensed 15",
                        bg=couleur["Bleu"], fg="white", height=2, padx=20)
 accueilText.pack(side="right")
-
-# Banner Button & Image de fond
-can = tk.Canvas(app, width=400, height=600)
-can.create_image(0, 0, anchor=tk.NW, image=imgFond)
 
 
 bannerButton = tk.Button(app, text="STOP", font="ExtraCondensed 32",
@@ -616,13 +645,13 @@ bannerButton3 = tk.Button(app, text="VOCAL", font="ExtraCondensed 32",width=7,he
                             fg="black", bd=0, bg=couleur["Cyan"], command=show_vocal)
 
 bannerButton4 = tk.Button(app, text="RETOUR", font="ExtraCondensed 20",
-                            fg="black", bd=0, bg=couleur["Gris"], command=show_mode)
+                            fg="black", bd=0, bg=couleur["Gris"], command=show_modes)
 
 bannerButton5 = tk.Button(app, text="LANGUES", font="ExtraCondensed 32",width=12,height=1,
                             fg="black", bd=0, bg=couleur["Cyan"], command=show_langue)
 
 bannerButton6 = tk.Button(app, text="ANGLAIS", font="ExtraCondensed 32",
-                            fg="black", bd=0, bg=couleur["Cyan"], command=None)
+                            fg="black", bd=0, bg=couleur["Cyan"], command=anglais)
 
 bannerButton7 = tk.Button(app, text="FRANCAIS", font="ExtraCondensed 32",
                             fg="black", bd=0, bg=couleur["Cyan"], command=None)
@@ -672,7 +701,7 @@ tk.Label(framLateral, font="ExtraCondensed 15", bg=couleur["Bleu"],
 y = 60
 
 # Les options dans la NavBar Laterale
-options = ["ACCUEIL", "MAPPING", "MODE", "TRACKING", "PARAMETRES"]
+options = ["ACCUEIL", "MAPPING", "MODES", "TRACKING", "PARAMETRES"]
 
 # Positionnement des options dans la NavBar
 for i, option in enumerate(options):
@@ -695,5 +724,7 @@ result_label = tk.Label(app, text="",font="ExtraCondensed 20" )
 
 
 app.resizable(width=False, height=False)
+
+
 
 app.mainloop()

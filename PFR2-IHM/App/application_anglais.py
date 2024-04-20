@@ -21,7 +21,7 @@ def run_english_app() :
             panel.after(10, show_video_stream)  # Mettre à jour l'image toutes les 10 ms
         else:
             print("Erreur lors de la capture de l'image.")
-        pass
+    
 
     #Partie bluetooth
 
@@ -65,14 +65,14 @@ def run_english_app() :
             result_label.place_forget()
         if vocal_label.winfo_exists():
             vocal_label.place_forget()
-        pass
+        
         
 
     def search_devices():
         global nearby_devices
         nearby_devices = bluetooth.discover_devices()
         update_devices_list()
-    pass
+    
 
     def connect_to_selected_device():
         selected_index = devices_listbox.curselection()
@@ -97,12 +97,12 @@ def run_english_app() :
                 print("Connection to Bluetooth server closed.")
         else:
             messagebox.showerror("Error", "No device selected.")
-        pass
+        
     def update_devices_list():
         devices_listbox.delete(0, tk.END)
         for i, device_address in enumerate(nearby_devices):
             devices_listbox.insert(tk.END, f"{i + 1}: {bluetooth.lookup_name(device_address)} [{device_address}]")
-        pass
+        
 
 
 
@@ -119,7 +119,7 @@ def run_english_app() :
             recognizer.adjust_for_ambient_noise(source)  # Réglez le bruit ambiant
             audio_data = recognizer.listen(source)  # Enregistrez l'audio à partir du microphone
         return audio_data
-        pass
+        
 
     # Fonction pour reconnaître la parole à partir de l'audio
     def recognize_speech():
@@ -132,7 +132,7 @@ def run_english_app() :
             result_label.config(text="Google Speech Recognition was unable to understand the audio.")
         except sr.RequestError as e:
             result_label.config(text="Unable to access Google Speech Recognition API : " + str(e))
-        pass
+        
 
     def choose_voice():
         #label.config(text="Commande vocale sélectionnée")
@@ -143,7 +143,7 @@ def run_english_app() :
 
         # Réinitialiser le texte du label résultat après que "Vous avez dit" apparaisse
         result_label.after(5000, lambda: result_label.config(text=""))
-        pass
+        
 
     # Dictionnaire de couleur
     couleur = {
@@ -189,7 +189,7 @@ def run_english_app() :
                 framLateral.place(x=x, y=0)
                 topFrame.update()
                 boutonEtat = True
-        pass
+        
 
     # Définir les fonctions pour les options
     def show_accueil():
@@ -235,7 +235,7 @@ def run_english_app() :
             result_label.place_forget()
         if appareil_label.winfo_exists():
             appareil_label.place_forget()
-        pass
+        
 
     def show_mapping():
         accueilText.config(text="MAPPING")
@@ -282,7 +282,7 @@ def run_english_app() :
             result_label.place_forget()
         if appareil_label.winfo_exists():
             appareil_label.place_forget()
-        pass
+        
 
     def show_mode():
         accueilText.config(text="MODES")
@@ -326,7 +326,7 @@ def run_english_app() :
             result_label.place_forget()
         if appareil_label.winfo_exists():
             appareil_label.place_forget()
-        pass
+        
         
 
 
@@ -379,7 +379,7 @@ def run_english_app() :
             result_label.place_forget()
         if appareil_label.winfo_exists():
             appareil_label.place_forget()
-        pass
+        
 
     def show_parametres():
         accueilText.config(text="SETTINGS")
@@ -424,7 +424,7 @@ def run_english_app() :
             result_label.place_forget()
         if appareil_label.winfo_exists():
             appareil_label.place_forget()
-        pass
+        
 
     #Définir les fonctions pour MODE
     def show_auto():
@@ -469,7 +469,7 @@ def run_english_app() :
             result_label.place_forget()
         if appareil_label.winfo_exists():
             appareil_label.place_forget()
-        pass
+        
         
 
     def show_manu():
@@ -514,7 +514,7 @@ def run_english_app() :
             result_label.place_forget()
         if appareil_label.winfo_exists():
             appareil_label.place_forget()
-        pass
+        
 
     def show_vocal():
         bannerButton4.place(x=25, y=75)
@@ -558,7 +558,7 @@ def run_english_app() :
             manu_label.place_forget()
         if appareil_label.winfo_exists():
             appareil_label.place_forget()
-        pass
+        
         
         
 
@@ -591,7 +591,7 @@ def run_english_app() :
             search_button.place_forget()
         if connect_button.winfo_exists():
             connect_button.place_forget()
-        pass
+        
 
         #suppression de texte
         if auto_label.winfo_exists():
@@ -604,7 +604,7 @@ def run_english_app() :
             vocal_label.place_forget()
         if appareil_label.winfo_exists():
             appareil_label.place_forget()
-        pass
+        
             
     # Barre de navigation Top
     topFrame = tk.Frame(app, bg=couleur["Bleu"])
