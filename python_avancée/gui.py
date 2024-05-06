@@ -5,7 +5,7 @@ from video_stream import VideoStream
 from colors import couleur
 from show_bluetooth import show_bluetooth
 
-blueto=show_bluetooth()
+
 
 class AppGUI:
     def __init__(self, master):
@@ -14,12 +14,13 @@ class AppGUI:
         self.master.config(bg="gray30")
         self.master.geometry("400x600")
         self.master.iconbitmap("logo.ico")
+        self.master.blueto=show_bluetooth()
 
         self.bluetooth_controller = BluetoothController()
         self.speech_recognizer = SpeechRecognizer()
         self.video_stream = VideoStream()
 
-        self.blueto=show_bluetooth()
+        
 
         # Other GUI initialization and layout code goes here
     def create_buttons(self):
@@ -97,6 +98,19 @@ class AppGUI:
         self.bannerButton10.place_forget()
         self.search_button.place_forget()
         self.connect_button.place_forget()
-        
+
+    def create_label(self):
+        # Barre de navigation Top
+        self.topFrame = tk.Frame(self.master, bg=couleur["Bleu"])
+        self.topFrame.pack(side="top", fill=tk.X)
+
+        self.accueilText = tk.Label(self.topFrame, text="ACCUEIL", font="ExtraCondensed 15",
+                       bg=couleur["Bleu"], fg="white", height=2, padx=20)
+        self.accueilText.pack(side="right")  
+
+        self.label1 = tk.Label(self.master, text="Label 1", font="ExtraCondensed 20",
+                           fg="black", bg="white")
+        self.label1.grid(row=0, column=0, padx=10, pady=10)  # Placez le label 1 dans la première ligne, première colonne
+
     
     
