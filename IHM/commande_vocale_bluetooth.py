@@ -6,11 +6,11 @@ with open('verbe.txt', 'r') as file:
     verbe_liste = file.read().splitlines()
 
 # Configurer la connexion Bluetooth
-bluetooth_port = 'COM8'  # mets le bon port
+bluetooth_port = 'COM8'  # Mets le bon port
 baud_rate = 9600  
 bluetooth_conn = serial.Serial(bluetooth_port, baud_rate, timeout=1)
 
-# Fonction pour vérifier si un mot est un verbe et l'écrire dans un fichier texte et envoyer au Bluetooth
+# Fonction pour vérifier si un mot est un verbe et l'écrire dans un fichier texte et envoyer à la carte Arduino par Bluetooth
 def verifier_et_ecrire_verbe(mot):
     if mot in verbe_liste:
         with open('verbe_enregistre.txt', 'w') as enregistre_file:
