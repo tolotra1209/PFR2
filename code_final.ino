@@ -36,14 +36,21 @@ void setSpeed(int vitesseGauche, int vitesseDroit) {
 }
 
 void avancer(int vitesseGauche, int vitesseDroit){
-  arreter(); // Arrêter les moteurs d'abord
   setSpeed(vitesseGauche, vitesseDroit);
   motor1.run(FORWARD);
   motor2.run(FORWARD);
   motor3.run(FORWARD);
   motor4.run(FORWARD);
-  delay(200);
-  arreter();
+  
+  // Continuer à avancer tant qu'aucun obstacle n'est détecté à moins de 30 cm
+  while (true) {
+    long distanceAvant = mesurerDistance(Broche_Trigger_Avant, Broche_Echo_Avant);
+    if (distanceAvant <= 40) {
+      arreter(); // Arrêter les moteurs si un obstacle est détecté à moins de 30 cm
+      break; // Sortir de la boucle
+    }
+    delay(50); // Attendre un court instant avant de mesurer à nouveau la distance
+  }
 }
 
 void reculer(int vitesseGauche, int vitesseDroit, int temps){
